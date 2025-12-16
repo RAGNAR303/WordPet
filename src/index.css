@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+.bg-linear {
+    background: linear-gradient(90deg, #ff6900, #ff6a008a), 
+    url("https://amapa.ind.br/instalacoes/imagens-tipo/instalacoes-armazenagens/expositores-para-pet-shop.jpg") center /cover;
+}
