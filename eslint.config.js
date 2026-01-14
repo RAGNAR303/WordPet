@@ -22,6 +22,9 @@ export default defineConfig([
     rules: {
       "no-used-vars": "off",
       "prefer-const": "off",
+      "react-refresh/only-export-components": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "react-hooks/immutability": "off",
     },
   },
 ]);

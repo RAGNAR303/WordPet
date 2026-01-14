@@ -11,7 +11,7 @@ export function Card({ children, button }: CardProps) {
       className="bg-linear-to-b from-green-700 to-green-900 rounded-3xl p-2 flex flex-col
           items-center gap-2"
     >
-      <div className="bg-white w-full rounded-3xl flex flex-col items-center p-1">
+      <div className="bg-white w-full h-full rounded-3xl flex flex-col items-center p-1">
         {children}
       </div>
 

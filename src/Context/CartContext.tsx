@@ -84,7 +84,7 @@ function CartProvider({ children }: CartProviderProps) {
         cartList[indexItem].total - cartList[indexItem].price;
       setCart(cartList);
       totalResultCart(cartList);
-      toast("Quantidade alterada!", {
+      toast.success("Quantidade alterada!", {
         icon: "⚠️",
         style: {
           borderRadius: "5px",
@@ -98,7 +98,7 @@ function CartProvider({ children }: CartProviderProps) {
     const removeItem = cart.filter((item) => item.id !== product.id);
     setCart(removeItem);
     totalResultCart(removeItem);
-    toast("Item removido!", {
+    toast.success("Item removido!", {
       icon: "❌",
       style: {
         borderRadius: "5px",
