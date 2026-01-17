@@ -15,3 +15,8 @@
 body {
     background-color: rgb(207, 214, 219);
 }
+
+
+.input-custom {
+    @apply bg-linear-to-b from-green-700 to-green-900 rounded-3xl p-4 flex items-center gap-2 border border-double border-green-700 w-full outline-none text-gray-100
+}

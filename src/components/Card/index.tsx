@@ -9,9 +9,9 @@ export function Card({ children, button }: CardProps) {
   return (
     <article
       className="bg-linear-to-b from-green-700 to-green-900 rounded-3xl p-2 flex flex-col
-          items-center gap-2"
+          items-center gap-2  min-h-80 md:w-full "
     >
-      <div className="bg-white w-full h-full rounded-3xl flex flex-col items-center p-1">
+      <div className="bg-white w-full h-full rounded-3xl flex flex-col items-center p-1 relative overflow-hidden">
         {children}
       </div>
 
