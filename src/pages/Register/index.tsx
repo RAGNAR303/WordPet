@@ -9,13 +9,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Logo } from "../../components/Logo";
 import { auth } from "../../services/firebaseConnection";
-import {
-  createUserWithEmailAndPassword,
-  signOut,
-  updateProfile,
-} from "firebase/auth";
-import { useEffect } from "react";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { useContext, useEffect } from "react";
 import toast from "react-hot-toast";
+import { AuthContext } from "../../Context/AuthContext";
 const schema = z.object({
   name: z.string().nonempty("O campo nome e obrigátorio"),
   email: z
@@ -31,6 +28,8 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export function Register() {
+  const { user, handlreInfoUser, handleLogout } = useContext(AuthContext);
+  console.log(user);
   const navigate = useNavigate();
   const {
     register,
@@ -48,6 +47,11 @@ export function Register() {
           displayName: data.name,
         });
         console.log(user);
+        handlreInfoUser({
+          uid: user.user.uid,
+          name: data.name,
+          email: data.email,
+        });
         toast.success("CADASTRADO COM SUCESSO");
         navigate("/painel", { replace: true });
       })
@@ -58,13 +62,8 @@ export function Register() {
   }
 
   useEffect(() => {
-    async function handleLogout() {
-      await signOut(auth);
-      toast.success("USUARIO DESLOGADO");
-    }
-
     handleLogout();
-  }, []);
+  }, [handleLogout]);
 
   return (
     <div className="flex flex-col w-full h-screen items-center justify-center gap-5">

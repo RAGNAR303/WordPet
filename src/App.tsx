@@ -6,6 +6,8 @@ import { Detail } from "./pages/Detail";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { Dashboard } from "./pages/Dashboard";
+import { NewProduct } from "./pages/Dashboard/New";
+import { Private } from "./pages/routes/Private";
 
 const router = createBrowserRouter([
   {
@@ -25,7 +27,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/painel",
-        element: <Dashboard />,
+        element: (
+          <Private>
+            <Dashboard />
+          </Private>
+        ),
+      },
+      {
+        path: "/painel/novo-produto",
+        element: (
+          <Private>
+            <NewProduct />
+          </Private>
+        ),
       },
     ],
   },

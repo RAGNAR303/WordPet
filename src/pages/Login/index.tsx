@@ -49,9 +49,7 @@ export function Login() {
   useEffect(() => {
     async function handleLogout() {
       await signOut(auth);
-      toast.success("USUARIO DESLOGADO");
     }
-
     handleLogout();
   }, []);
 

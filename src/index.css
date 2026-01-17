@@ -11,3 +11,7 @@
         -webkit-text-fill-color: #ffffff !important;
     }
 }
+
+body {
+    background-color: rgb(207, 214, 219);
+}

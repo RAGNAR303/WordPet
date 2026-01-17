@@ -3,14 +3,15 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./App";
-import CartProvider from "./Context/CartContext";
+
 import { Toaster } from "react-hot-toast";
+import { Providers } from "./Context/Provider";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <CartProvider>
+    <Providers>
       <Toaster position="top-right" reverseOrder={false} />
       <RouterProvider router={router} />
-    </CartProvider>
+    </Providers>
   </StrictMode>
 );

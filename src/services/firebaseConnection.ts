@@ -3,14 +3,14 @@ import { getAuth} from 'firebase/auth'
 import { getFirestore} from "firebase/firestore"
 import { getStorage} from 'firebase/storage'
 
-// Your web app's Firebase configuration
+
 const firebaseConfig = {
-  apiKey: "AIzaSyC-leFf4hl-9QIg5rcE6lcjR8cHivPT2f0",
-  authDomain: "wordpet-83372.firebaseapp.com",
-  projectId: "wordpet-83372",
-  storageBucket: "wordpet-83372.firebasestorage.app",
-  messagingSenderId: "280163256734",
-  appId: "1:280163256734:web:8234b0c6beb6c8648a6e8f"
+  apiKey: import.meta.env.VITE_APIKEY,
+  authDomain: import.meta.env.VITE_AUTHDOMAIN,
+  projectId: import.meta.env.VITE_PROJECTID,
+  storageBucket: import.meta.env.VITE_STORAGEBUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGINGSENDERID,
+  appId: import.meta.env.VITE_APPID
 };
 
 // Initialize Firebase

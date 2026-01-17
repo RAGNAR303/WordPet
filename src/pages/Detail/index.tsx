@@ -6,6 +6,7 @@ import { Button } from "../../components/Button";
 import { MdAddShoppingCart } from "react-icons/md";
 import { formatPrice } from "../../utils/formatPrice";
 import { CartContext } from "../../Context/CartContext";
+import { Container } from "../../components/Container";
 
 export function Detail() {
   const [product, setProduct] = useState<ProductProps>();
@@ -28,7 +29,7 @@ export function Detail() {
   }
 
   return (
-    <div className="max-w-6xl w-full mx-auto p-2 ">
+    <Container>
       <h1 className="text-zinc-700 font-bold text-center my-5 text-3xl">
         Sobre Produto
       </h1>
@@ -63,6 +64,6 @@ export function Detail() {
           </Button>
         </div>
       </main>
-    </div>
+    </Container>
   );
 }

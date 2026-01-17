@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { formatPrice } from "../../utils/formatPrice";
 import { CartContext } from "../../Context/CartContext";
 import dog from "../../assets/dog.png";
+import { Container } from "../../components/Container";
 
 export interface ProductProps {
   cover: string;
@@ -49,12 +50,12 @@ export function Home() {
           </p>
         </div>
       </section>
-      <div className="max-w-6xl w-full mx-auto ">
+      <Container>
         <section className="flex flex-col">
-          <h1 className="text-2xl font-extrabold text-center text-zinc-700 text-shadow-2xs text-shadow-zinc-900/50 mt-10">
+          <h1 className="text-2xl font-extrabold text-center text-zinc-700 text-shadow-2xs text-shadow-zinc-900/50">
             Veja nossos produtos
           </h1>
-          <main className="grid grid-cols-1 sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-4 gap-3 mt-5 p-5">
+          <main className="grid grid-cols-1 sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-4 gap-3 p-5">
             {products &&
               products.map((prd) => (
                 <article
@@ -89,7 +90,7 @@ export function Home() {
               ))}
           </main>
         </section>
-      </div>
+      </Container>
     </>
   );
 }
