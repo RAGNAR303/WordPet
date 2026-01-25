@@ -11,7 +11,7 @@ export function Header() {
   const { signed, loadingAuth: loadingUser } = useContext(AuthContext);
   return (
     <header className="w-full bg-linear-to-b from-green-700 to-green-900 rounded-b-2xl shadow-2xl fixed top-0">
-      <nav className="mx-auto max-w-[80%] w-full flex justify-between items-center py-2">
+      <nav className="mx-auto max-w-[80%] w-full flex justify-between items-center py-2 z-50">
         <Logo />
         <div className="flex items-center gap-5">
           <Link to={"/carrinho"}>

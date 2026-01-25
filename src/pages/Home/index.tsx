@@ -7,6 +7,8 @@ import { formatPrice } from "../../utils/formatPrice";
 import { CartContext } from "../../Context/CartContext";
 import dog from "../../assets/dog.png";
 import { Container } from "../../components/Container";
+import { db } from "../../services/firebaseConnection";
+import { collection, orderBy, query, getDocs } from "firebase/firestore";
 
 export interface ProductProps {
   cover: string;
@@ -16,8 +18,18 @@ export interface ProductProps {
   title: string;
 }
 
+ interface ProductPetProps {
+  description: string;
+  id: string;
+  price: string;
+  title: string;
+  images: string;
+}
+
 export function Home() {
   const [products, setProducts] = useState<ProductProps[]>([]);
+  const [productsPets, setProductsPets] = useState<ProductPetProps[]>([]);
+  const [loadImages, setLoadImages] = useState<string[]>([]);
   const { addItemCart } = useContext(CartContext);
   const navigate = useNavigate();
 
@@ -35,6 +47,43 @@ export function Home() {
     setTimeout(() => {
       navigate("/carrinho");
     }, 1000);
+  }
+  useEffect(() => {
+    function loadPetProducts() {
+      const refProducts = collection(db, "products");
+      const orderByRef = query(refProducts, orderBy("createdAt", "desc"));
+
+      getDocs(orderByRef)
+        .then((snapshot) => {
+          console.log(snapshot.docs);
+
+          let listProduct = [] as ProductPetProps[];
+
+          snapshot.forEach((doc) => {
+            listProduct.push({
+              id: doc.id,
+              description: doc.data()?.description,
+              price: doc.data()?.price,
+              title: doc.data()?.title,
+              images: doc.data()?.images,
+            });
+          });
+
+          setProductsPets(listProduct);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    loadPetProducts();
+  }, []);
+
+  console.log(productsPets);
+
+  function handleImage(url: string) {
+    console.log("IMAGEM Carregando");
+    console.log("URL IMAGEM ", url);
+    setLoadImages((imagesPrev) => [...imagesPrev, url]);
   }
 
   return (
@@ -65,7 +114,7 @@ export function Home() {
                 >
                   <Link
                     to={`/detalhes/${prd.id}`}
-                    className="bg-white w-full rounded-3xl flex flex-col items-center p-1 text-center border-2 border-double border-zinc-200 hover:border-orange-500 duration-300"
+                    className="bg-white w-full h-full rounded-3xl flex flex-col items-center p-1 text-center border-2 border-double border-zinc-200 hover:border-orange-500 duration-300"
                   >
                     <img
                       src={prd.cover}
@@ -75,6 +124,47 @@ export function Home() {
                     <h2 className="font-bold text-zinc-800">{prd.title}</h2>
                     <strong className="text-2xl text-zinc-700">
                       {formatPrice(prd.price)}
+                    </strong>
+                  </Link>
+
+                  <div className="flex justify-between w-[80%]">
+                    <Button onClick={() => HandleAddProduct(prd)}>
+                      Comprar
+                    </Button>
+                    <Button onClick={() => addItemCart(prd)}>
+                      <MdAddShoppingCart className="text-2xl" />
+                    </Button>
+                  </div>
+                </article>
+              ))}
+            {productsPets &&
+              productsPets.map((prd) => (
+                <article
+                  key={prd.id}
+                  className="bg-linear-to-b from-green-700 to-green-900 rounded-3xl p-2 flex flex-col
+          items-center gap-2"
+                >
+                  <Link
+                    to={`/detalhes/${prd.id}`}
+                    className="bg-white w-full rounded-3xl flex flex-col items-center p-1 text-center border-2 border-double border-zinc-200 hover:border-orange-500 duration-300"
+                  >
+                    <div
+                      className="h-60 md:h-80  w-full rounded-2xl bg-orange-500"
+                      style={{
+                        display: loadImages.includes(prd.images?.[0])
+                          ? "none"
+                          : "block",
+                      }}
+                    ></div>
+                    <img
+                      src={prd.images?.[0]}
+                      alt={prd.title}
+                      className="max-h-40 md:max-h-60  object-cover rounded-2xl"
+                      onLoad={() => handleImage(prd.images?.[0])}
+                    />
+                    <h2 className="font-bold text-zinc-800">{prd.title}</h2>
+                    <strong className="text-2xl text-zinc-700">
+                      {formatPrice(Number(prd.price))}
                     </strong>
                   </Link>
 

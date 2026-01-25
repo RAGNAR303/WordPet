@@ -28,6 +28,9 @@ export function Detail() {
     }, 1000);
   }
 
+
+
+
   return (
     <Container>
       <h1 className="text-zinc-700 font-bold text-center my-5 text-3xl">
@@ -43,6 +46,7 @@ export function Detail() {
               src={product?.cover}
               alt={product?.title}
               className="max-h-40 md:max-h-80 rounded-2xl"
+             
             />
             <div className="flex flex-col gap-2">
               <h2 className="md:text-2xl font-bold  text-zinc-800">

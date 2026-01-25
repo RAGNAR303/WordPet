@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 interface CardProps {
   children: ReactNode;
-  button: ReactNode;
+  button?: ReactNode;
 }
 
 export function Card({ children, button }: CardProps) {
