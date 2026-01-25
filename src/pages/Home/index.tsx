@@ -18,7 +18,7 @@ export interface ProductProps {
   title: string;
 }
 
- interface ProductPetProps {
+interface ProductPetProps {
   description: string;
   id: string;
   price: string;
@@ -146,7 +146,7 @@ export function Home() {
                 >
                   <Link
                     to={`/detalhes/${prd.id}`}
-                    className="bg-white w-full rounded-3xl flex flex-col items-center p-1 text-center border-2 border-double border-zinc-200 hover:border-orange-500 duration-300"
+                    className="bg-white w-full h-full rounded-3xl flex flex-col items-center p-1 text-center border-2 border-double border-zinc-200 hover:border-orange-500 duration-300"
                   >
                     <div
                       className="h-60 md:h-80  w-full rounded-2xl bg-orange-500"

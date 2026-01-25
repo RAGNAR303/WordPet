@@ -2,7 +2,14 @@ import { Container } from "../../components/Container";
 import { TopBar } from "../../components/TopBar";
 import { BsFillTrash3Fill } from "react-icons/bs";
 import { db } from "../../services/firebaseConnection";
-import { getDocs, collection, query, where } from "firebase/firestore";
+import {
+  getDocs,
+  collection,
+  query,
+  where,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 import { formatPrice } from "../../utils/formatPrice";
@@ -53,6 +60,14 @@ export function Dashboard() {
 
     loadProducts();
   }, [user?.uid]);
+
+  async function deleteProduct(id: string) {
+    console.log(id);
+
+    const produtcRef = doc(db, "products", id);
+    await deleteDoc(produtcRef);
+    setPetProducts(petProducts.filter((prd) => prd.id !== id));
+  }
   return (
     <Container>
       <TopBar />
@@ -60,12 +75,12 @@ export function Dashboard() {
         {petProducts &&
           petProducts.map((prd) => (
             <article
-              className="flex flex-col items-center bg-white p-2 rounded-2xl gap-1.5 shadow-2xs border border-orange-500 relative
-        overflow-hidden"
+              key={prd.id}
+              className="flex flex-col items-center bg-white p-2 rounded-2xl gap-1.5 shadow-2xs border-3 border-orange-500 relative overflow-hidden has-[button:hover]:border-red-500 has-[button:hover]:scale-105 duration-300  "
             >
               <button
-                onClick={() => {}}
-                className="absolute right-0 top-0 bg-orange-500 p-4 rounded-bl-2xl"
+                onClick={() => deleteProduct(prd.id)}
+                className="absolute right-0 top-0 bg-orange-500 p-4 rounded-bl-2xl hover:bg-red-500 duration-300"
               >
                 <BsFillTrash3Fill className="text-white text-2xl" />
               </button>
