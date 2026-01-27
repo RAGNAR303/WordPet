@@ -17,21 +17,21 @@ import { AuthContext } from "../../../Context/AuthContext";
 //   deleteObject,
 // } from "firebase/storage";
 import { db, storage } from "../../../services/firebaseConnection";
-import { FaPlusCircle } from "react-icons/fa";
+
 import { IoRemoveCircleSharp } from "react-icons/io5";
 import { addDoc, collection } from "firebase/firestore";
 
 const schema = z.object({
-  title: z.string().nonempty("Coloque nome no produto"),
-  price: z.string().nonempty("Coloque o preço sugerido"),
-  description: z.string().nonempty("Campo descrição e obrigatório"),
+  title: z.string().nonempty("Adicione um nome no produto"),
+  price: z.string().nonempty("Nunhuma preço adicionada"),
+  description: z.string().nonempty("Nunhuma descrição adicionada"),
   images: z
     .array(
       z.object({
         url: z.string().url("URL da imagen inválida").min(1, "Informe a url"),
       }),
     )
-    .min(1, "Adicone pelo menos 1 url de imagem"),
+    .nonempty("Adicone pelo menos 1 url de imagem"),
 });
 
 type FormProduct = z.infer<typeof schema>;
@@ -149,7 +149,11 @@ export function NewProduct() {
                 className="max-h-60 object-cover rounded"
               />
             ) : (
-              <p className="flex max-h-60">Nenhuma foto adicionada</p>
+              <div className="flex justify-center items-center h-60">
+                <p className="font-bold text-zinc-800">
+                  Nenhuma URL foto adicionada
+                </p>
+              </div>
             ),
           )}
         </div>
@@ -170,12 +174,16 @@ export function NewProduct() {
         <div className=" flex flex-col gap-1   bottom-1">
           {fields.map((field, index) => (
             <div key={field.id} className="flex items-center gap-2">
-              <input
-                type="text"
-                placeholder={`URL DA IMAGEM ${index + 1}`}
-                {...register(`images.${index}.url` as const)}
-                className=" input-custom w-full"
-              />
+              <div className="w-full">
+                <input
+                  type="text"
+                  placeholder={`URL DA IMAGEM ${index + 1}`}
+                  {...register(`images.${index}.url` as const)}
+                  className=" input-custom w-full"
+                />
+                <p className="text-red-700 text-xs">{errors.images?.message}</p>
+              </div>
+
               <button
                 type="button"
                 className="bg-orange-500 rounded-full p-2"
@@ -186,9 +194,8 @@ export function NewProduct() {
             </div>
           ))}
 
-          <Button onClick={() => append({ url: "" })} className="flex">
-            <FaPlusCircle className="text-white text-4xl" />
-          URL
+          <Button onClick={() => append({ url: "" })} className="text-center">
+            ADICIONAR MAIS URL
           </Button>
         </div>
         <form
@@ -230,7 +237,9 @@ export function NewProduct() {
               placeholder="Digite nome do protudo"
               className="input-custom"
             ></textarea>
-            <p className="text-red-600 text-sm">{errors.title?.message}</p>
+            <p className="text-red-700 text-xs">
+              {errors.description?.message}
+            </p>
           </div>
           <Button className="w-full">Salvar</Button>
         </form>
