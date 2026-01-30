@@ -80,7 +80,7 @@ export function Dashboard() {
             >
               <button
                 onClick={() => deleteProduct(prd.id)}
-                className="absolute right-0 top-0 bg-orange-500 p-4 rounded-bl-2xl hover:bg-red-500 duration-300"
+                className="absolute  right-0 top-0 bg-orange-500 p-4 rounded-bl-2xl hover:bg-red-500 duration-300 "
               >
                 <BsFillTrash3Fill className="text-white text-2xl" />
               </button>

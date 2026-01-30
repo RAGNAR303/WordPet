@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Card } from "../../../components/Card";
 import { Button } from "../../../components/Button";
 
-import { useContext, useState, type ChangeEvent } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../../../Context/AuthContext";
 // import { v4 as uuidV4 } from "uuid";
 // import {
@@ -16,14 +16,14 @@ import { AuthContext } from "../../../Context/AuthContext";
 //   ref,
 //   deleteObject,
 // } from "firebase/storage";
-import { db, storage } from "../../../services/firebaseConnection";
+import { db } from "../../../services/firebaseConnection";
 
 import { IoRemoveCircleSharp } from "react-icons/io5";
 import { addDoc, collection } from "firebase/firestore";
 
 const schema = z.object({
   title: z.string().nonempty("Adicione um nome no produto"),
-  price: z.string().nonempty("Nunhuma preço adicionada"),
+  price: z.number().min(3, "Nunhuma preço adicionada"),
   description: z.string().nonempty("Nunhuma descrição adicionada"),
   images: z
     .array(

@@ -1,7 +1,7 @@
 import { MdAddShoppingCart } from "react-icons/md";
 import { Button } from "../../components/Button";
 import { useContext, useEffect, useState } from "react";
-import { api } from "../../services/api";
+// import { api } from "../../services/api";
 import { Link, useNavigate } from "react-router-dom";
 import { formatPrice } from "../../utils/formatPrice";
 import { CartContext } from "../../Context/CartContext";
@@ -18,31 +18,31 @@ export interface ProductProps {
   title: string;
 }
 
-interface ProductPetProps {
+export interface ProductPetProps {
   description: string;
   id: string;
-  price: string;
+  price: number;
   title: string;
-  images: string;
+  images: string[];
 }
 
 export function Home() {
-  const [products, setProducts] = useState<ProductProps[]>([]);
+  // const [products, setProducts] = useState< ProductPetProps[]>([]);
   const [productsPets, setProductsPets] = useState<ProductPetProps[]>([]);
   const [loadImages, setLoadImages] = useState<string[]>([]);
   const { addItemCart } = useContext(CartContext);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    async function loadProducts() {
-      const { data } = await api.get("/products");
+  // useEffect(() => {
+  //   async function loadProducts() {
+  //     const { data } = await api.get("/products");
 
-      setProducts(data);
-    }
-    loadProducts();
-  }, []);
+  //     setProducts(data);
+  //   }
+  //   loadProducts();
+  // }, []);
 
-  function HandleAddProduct(product: ProductProps) {
+  function HandleAddProduct(product: ProductPetProps) {
     addItemCart(product);
     setTimeout(() => {
       navigate("/carrinho");
@@ -105,7 +105,7 @@ export function Home() {
             Veja nossos produtos
           </h1>
           <main className="grid grid-cols-1 sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-4 gap-3 p-5">
-            {products &&
+            {/* {products &&
               products.map((prd) => (
                 <article
                   key={prd.id}
@@ -136,7 +136,7 @@ export function Home() {
                     </Button>
                   </div>
                 </article>
-              ))}
+              ))} */}
             {productsPets &&
               productsPets.map((prd) => (
                 <article
@@ -164,7 +164,7 @@ export function Home() {
                     />
                     <h2 className="font-bold text-zinc-800">{prd.title}</h2>
                     <strong className="text-2xl text-zinc-700">
-                      {formatPrice(Number(prd.price))}
+                      {formatPrice(prd.price)}
                     </strong>
                   </Link>
 

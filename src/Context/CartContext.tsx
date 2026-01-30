@@ -1,22 +1,32 @@
 import { createContext, useState, type ReactNode } from "react";
-import type { ProductProps } from "../pages/Home";
+import type { ProductPetProps } from "../pages/Home";
 import { formatPrice } from "../utils/formatPrice";
 import toast from "react-hot-toast";
 
 interface CartContextData {
   cart: CartProps[];
   cartAmount: number;
-  addItemCart: (newItem: ProductProps) => void;
+  addItemCart: (newItem: ProductPetProps) => void;
   removeItemCart: (product: CartProps) => void;
   total: string;
 }
 
+// export interface CartProps {
+//   cover: string;
+//   description: string;
+//   id: string;
+//   price: number;
+//   title: string;
+//   amount: number;
+//   total: number;
+// }
+
 export interface CartProps {
-  cover: string;
   description: string;
   id: string;
   price: number;
   title: string;
+  images: string[];
   amount: number;
   total: number;
 }
@@ -31,7 +41,7 @@ function CartProvider({ children }: CartProviderProps) {
   const [cart, setCart] = useState<CartProps[]>([]);
   const [total, setTotal] = useState("");
 
-  function addItemCart(newItem: ProductProps) {
+  function addItemCart(newItem: ProductPetProps) {
     const indexItem = cart.findIndex((item) => item.id === newItem.id);
 
     if (indexItem !== -1) {

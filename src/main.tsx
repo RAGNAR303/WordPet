@@ -6,6 +6,13 @@ import { router } from "./App";
 
 import { Toaster } from "react-hot-toast";
 import { Providers } from "./Context/Provider";
+import { register } from "swiper/element/bundle";
+
+register();
+
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -13,5 +20,5 @@ createRoot(document.getElementById("root")!).render(
       <Toaster position="top-right" reverseOrder={false} />
       <RouterProvider router={router} />
     </Providers>
-  </StrictMode>
+  </StrictMode>,
 );
