@@ -8,7 +8,7 @@ import { CartContext } from "../../Context/CartContext";
 import dog from "../../assets/dog.png";
 import { Container } from "../../components/Container";
 import { db } from "../../services/firebaseConnection";
-import { collection, orderBy, query, getDocs } from "firebase/firestore";
+import { collection, orderBy, query, getDocs, where } from "firebase/firestore";
 
 export interface ProductProps {
   cover: string;
@@ -30,6 +30,7 @@ export function Home() {
   // const [products, setProducts] = useState< ProductPetProps[]>([]);
   const [productsPets, setProductsPets] = useState<ProductPetProps[]>([]);
   const [loadImages, setLoadImages] = useState<string[]>([]);
+  const [searchInput, setSearchInput] = useState("");
   const { addItemCart } = useContext(CartContext);
   const navigate = useNavigate();
 
@@ -49,41 +50,72 @@ export function Home() {
     }, 1000);
   }
   useEffect(() => {
-    function loadPetProducts() {
-      const refProducts = collection(db, "products");
-      const orderByRef = query(refProducts, orderBy("createdAt", "desc"));
-
-      getDocs(orderByRef)
-        .then((snapshot) => {
-          console.log(snapshot.docs);
-
-          let listProduct = [] as ProductPetProps[];
-
-          snapshot.forEach((doc) => {
-            listProduct.push({
-              id: doc.id,
-              description: doc.data()?.description,
-              price: doc.data()?.price,
-              title: doc.data()?.title,
-              images: doc.data()?.images,
-            });
-          });
-
-          setProductsPets(listProduct);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
     loadPetProducts();
   }, []);
 
-  console.log(productsPets);
+  function loadPetProducts() {
+    const refProducts = collection(db, "products");
+    const orderByRef = query(refProducts, orderBy("createdAt", "desc"));
+
+    getDocs(orderByRef)
+      .then((snapshot) => {
+        console.log(snapshot.docs);
+
+        let listProduct = [] as ProductPetProps[];
+
+        snapshot.forEach((doc) => {
+          listProduct.push({
+            id: doc.id,
+            description: doc.data()?.description,
+            price: doc.data()?.price,
+            title: doc.data()?.title,
+            images: doc.data()?.images,
+          });
+        });
+
+        setProductsPets(listProduct);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   function handleImage(url: string) {
-    console.log("IMAGEM Carregando");
-    console.log("URL IMAGEM ", url);
     setLoadImages((imagesPrev) => [...imagesPrev, url]);
+  }
+
+  async function handledSearch() {
+    if (searchInput === "") {
+      loadPetProducts();
+      return;
+    }
+
+    const searchRef = collection(db, "products");
+    const queryRef = query(
+      searchRef,
+      where("title", ">=", searchInput.toUpperCase()),
+      where("title", "<=", searchInput.toUpperCase() + "\uf8ff"),
+    );
+    await getDocs(queryRef)
+      .then((snapshot) => {
+        console.log(snapshot.docs);
+
+        let listProduct = [] as ProductPetProps[];
+
+        snapshot.forEach((doc) => {
+          listProduct.push({
+            id: doc.id,
+            title: doc.data()?.title,
+            description: doc.data()?.description,
+            price: doc.data()?.price,
+            images: doc.data()?.images,
+          });
+        });
+        setProductsPets(listProduct);
+      })
+      .catch((error) => {
+        console.log("Não foi possivel achar produto", error);
+      });
   }
 
   return (
@@ -101,6 +133,16 @@ export function Home() {
       </section>
       <Container>
         <section className="flex flex-col">
+          <div className="flex mx-auto gap-0.5 w-full max-w-3xl mb-9 ">
+            <input
+              className="input-custom"
+              placeholder="Digite o nome do produto"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+            />
+            <Button onClick={handledSearch}>Buscar</Button>
+          </div>
+
           <h1 className="text-2xl font-extrabold text-center text-zinc-700 text-shadow-2xs text-shadow-zinc-900/50">
             Veja nossos produtos
           </h1>

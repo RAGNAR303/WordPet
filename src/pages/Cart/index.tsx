@@ -26,7 +26,7 @@ export function Cart() {
                   className="transition-discrete hover:scale-[1.03] duration-200"
                 >
                   <img
-                    src={prd.cover}
+                    src={prd.images[0]}
                     alt={prd.title}
                     className="max-h-20 object-cover rounded-2xl"
                   />

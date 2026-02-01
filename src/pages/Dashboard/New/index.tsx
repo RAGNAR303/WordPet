@@ -23,7 +23,7 @@ import { addDoc, collection } from "firebase/firestore";
 
 const schema = z.object({
   title: z.string().nonempty("Adicione um nome no produto"),
-  price: z.number().min(3, "Nunhuma preço adicionada"),
+  price: z.coerce.number(),
   description: z.string().nonempty("Nunhuma descrição adicionada"),
   images: z
     .array(
@@ -55,7 +55,7 @@ export function NewProduct() {
     watch,
     control,
   } = useForm<FormProduct>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver<FormProduct>(schema),
     mode: "onChange",
     defaultValues: {
       images: [{ url: "" }],
@@ -119,7 +119,7 @@ export function NewProduct() {
       .filter((url) => url !== "");
 
     addDoc(collection(db, "products"), {
-      title: data.title,
+      title: data.title.toUpperCase(),
       price: data.price,
       description: data.description,
       images: imageUrls,
@@ -149,7 +149,7 @@ export function NewProduct() {
                 className="max-h-60 object-cover rounded"
               />
             ) : (
-              <div className="flex justify-center items-center h-60">
+              <div key={i} className="flex justify-center items-center h-60">
                 <p className="font-bold text-zinc-800">
                   Nenhuma URL foto adicionada
                 </p>
@@ -207,9 +207,9 @@ export function NewProduct() {
               Produto
             </label>
             <Input
-              type="text"
               name="title"
               register={register}
+              type="text"
               error={errors.title?.message}
               placeholder="Digite nome do protudo"
             />
@@ -219,9 +219,10 @@ export function NewProduct() {
               Preço
             </label>
             <Input
-              type="text"
               name="price"
               register={register}
+              type="number"
+              step="0.01"
               error={errors.price?.message}
               placeholder="Ex. 10,00"
             />

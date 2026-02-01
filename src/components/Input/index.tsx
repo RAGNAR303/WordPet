@@ -1,24 +1,32 @@
 import type { InputHTMLAttributes, ReactNode } from "react";
-import type { RegisterOptions, UseFormRegister } from "react-hook-form";
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+import type {
+  RegisterOptions,
+  UseFormRegister,
+  Path,
+  FieldValues,
+} from "react-hook-form";
+interface InputProps<
+  T extends FieldValues,
+> extends InputHTMLAttributes<HTMLInputElement> {
   icon?: ReactNode;
-  name: string;
+  name: Path<T>;
   error?: string;
-  register: UseFormRegister<any>;
-  rules?: RegisterOptions;
+  type?: string;
+  register: UseFormRegister<T>;
+  rules?: RegisterOptions<T>;
 }
 
-export function Input({
+export function Input<T extends FieldValues>({
   name,
   error,
   icon,
   register,
   rules,
+  type,
   ...props
-}: InputProps) {
+}: InputProps<T>) {
   return (
     <>
-      {" "}
       <div
         className=" bg-linear-to-b from-green-700 to-green-900 rounded-3xl p-2 flex
           items-center gap-2 border border-double border-green-700 w-full"
@@ -26,6 +34,7 @@ export function Input({
         <p className="text-white text-xl font-bol">{icon}</p>
         <input
           id={name}
+          type={type}
           {...register(name, rules)}
           {...props}
           className="outline-none text-xl text-white p-1 w-full appearance-none autofill:bg-green-700 rounded "
